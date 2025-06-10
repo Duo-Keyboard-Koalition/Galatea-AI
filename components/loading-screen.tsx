@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 
-interface LoadingScreenProps {
+// Main full-screen loading component with progress bar
+export function LoadingScreen({
+  message = "Sculpting your experience...",
+  onComplete,
+}: {
   message?: string
   onComplete?: () => void
-}
-
-export function LoadingScreen({ message = "Sculpting your experience...", onComplete }: LoadingScreenProps) {
+}) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
@@ -41,6 +43,29 @@ export function LoadingScreen({ message = "Sculpting your experience...", onComp
   )
 }
 
+// Simple circle loader for login/signup
+export function SimpleCircleLoader() {
+  return (
+    <div className="fixed inset-0 bg-[#0a1520]/90 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="relative">
+        <div className="absolute w-32 h-32 rounded-full border-4 border-t-transparent border-[#2de2e6] animate-spin" />
+        <div className="absolute w-24 h-24 rounded-full border-4 border-b-transparent border-[#0d92ba] animate-spin [animation-delay:500ms]" />
+        <div className="absolute w-16 h-16 rounded-full border-4 border-l-transparent border-[#2de2e6] animate-spin [animation-delay:1000ms]" />
+      </div>
+    </div>
+  )
+}
+
+// Minimal loader for inline use
+export function MinimalLoader() {
+  return (
+    <div className="flex items-center justify-center p-4">
+      <div className="w-10 h-10 rounded-full border-2 border-t-transparent border-[#2de2e6] animate-spin" />
+    </div>
+  )
+}
+
+// Logo component
 function GalateaAILogo() {
   return (
     <Image
@@ -54,6 +79,7 @@ function GalateaAILogo() {
   )
 }
 
+// Circle loader component
 function CircleLoader() {
   return (
     <div className="relative w-full h-40 flex items-center justify-center mb-8">
@@ -64,12 +90,8 @@ function CircleLoader() {
   )
 }
 
-interface GalateaAIBarLoaderProps {
-  progress: number
-  message: string
-}
-
-function GalateaAIBarLoader({ progress, message }: GalateaAIBarLoaderProps) {
+// Progress bar component
+function GalateaAIBarLoader({ progress, message }: { progress: number; message: string }) {
   return (
     <div className="w-full">
       <h1 className="text-3xl font-bold text-white mb-8 text-center">
