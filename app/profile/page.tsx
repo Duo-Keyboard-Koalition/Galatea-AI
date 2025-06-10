@@ -8,6 +8,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Navbar } from "@/components/navbar"
 import { ProtectedRoute } from "@/components/protected-route"
 import { LoadingSpinner } from "@/components/loading-spinner"
@@ -18,7 +19,7 @@ import { createClient } from "@/utils/supabase/client"
 import { CheckCircleIcon, UserIcon, Camera, Trash2, Upload } from "lucide-react"
 
 export default function Profile() {
-  const { currentUser, logout } = useAuth()
+  const { currentUser, logout, linkWithGoogle, linkWithFacebook, unlinkProvider } = useAuth()
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [displayName, setDisplayName] = useState(currentUser?.user_metadata?.display_name || "")
@@ -26,14 +27,16 @@ export default function Profile() {
   const [isUploadingImage, setIsUploadingImage] = useState(false)
   const [successMessage, setSuccessMessage] = useState("")
   const [error, setError] = useState("")
+  const [activeTab, setActiveTab] = useState<"profile" | "security" | "accounts">("profile")
+
+  // Connected accounts state
+  const [connectedProviders, setConnectedProviders] = useState<string[]>([])
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!currentUser) return
 
     setIsLoading(true)
-    setError("")
-    setSuccessMessage("")
 
     try {
       // Update user metadata in Supabase
@@ -49,7 +52,7 @@ export default function Profile() {
       setSuccessMessage("Profile updated successfully!")
       setTimeout(() => setSuccessMessage(""), 3000)
     } catch (err: any) {
-      setError(err.message || "Failed to update profile")
+      showMessage(err.message || "Failed to update profile", true)
     } finally {
       setIsLoading(false);
     }
@@ -113,7 +116,7 @@ export default function Profile() {
       await logout()
       router.push("/")
     } catch (err: any) {
-      setError(err.message || "Failed to log out")
+      showMessage(err.message || "Failed to log out", true)
     }
   }
 
@@ -126,8 +129,9 @@ export default function Profile() {
       <div className="min-h-screen bg-black text-white">
         <Navbar />
 
-        <main className="container mx-auto px-6 pt-24 pb-16 flex justify-center">
-          <div className="w-full max-w-md">
+        <main className="container mx-auto px-6 pt-24 pb-16">
+          <div className="max-w-4xl mx-auto">
+            {/* Header */}
             <div className="text-center mb-8">
               {/* Profile Picture Section */}
               <div className="relative mx-auto h-32 w-32 mb-6">
@@ -182,9 +186,11 @@ export default function Profile() {
               <p className="text-gray-400 mt-2">{currentUser?.email}</p>
             </div>
 
+            {/* Messages */}
             {error && (
-              <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-md mb-6">
-                {error}
+              <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-md mb-6 flex items-center gap-2">
+                <AlertCircleIcon size={20} />
+                <span>{error}</span>
               </div>
             )}
 
