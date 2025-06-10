@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -52,7 +52,7 @@ export default function SignIn() {
       setError(e?.message || "Failed to sign in with email")
       setIsLoading(false)
     }
-  }
+  };
 
   const handleDiscordSignIn = async () => {
     setIsLoading(true)
@@ -77,7 +77,7 @@ export default function SignIn() {
       setError(e?.message || "Failed to sign in with Discord")
       setIsLoading(false)
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center relative">

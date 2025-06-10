@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
@@ -29,13 +29,13 @@ export default function SignUp() {
     setError("")
     
     if (password !== confirmPassword) {
-      setError("Passwords do not match")
-      return
+      setError("Passwords do not match");
+      return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters long")
-      return
+      setError("Password must be at least 6 characters long");
+      return;
     }
 
     if (!firstName.trim()) {
@@ -70,7 +70,7 @@ export default function SignUp() {
       setError(e?.message || "Failed to sign up with email")
       setIsLoading(false)
     }
-  }
+  };
 
   const handleDiscordSignUp = async () => {
     setIsLoading(true)
@@ -95,7 +95,7 @@ export default function SignUp() {
       setError(e?.message || "Failed to sign up with Discord")
       setIsLoading(false)
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center relative">
