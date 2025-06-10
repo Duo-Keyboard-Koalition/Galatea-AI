@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
@@ -27,8 +27,8 @@ export default function Profile() {
   const [error, setError] = useState("")
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!currentUser) return
+    e.preventDefault();
+    if (!currentUser) return;
 
     setIsLoading(true)
     setError("")
@@ -50,9 +50,9 @@ export default function Profile() {
     } catch (err: any) {
       setError(err.message || "Failed to update profile")
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -105,16 +105,16 @@ export default function Profile() {
     } finally {
       setIsUploadingImage(false)
     }
-  }
+  };
 
   const handleLogout = async () => {
     try {
-      await logout()
-      router.push("/")
+      await logout();
+      router.push("/");
     } catch (err: any) {
       setError(err.message || "Failed to log out")
     }
-  }
+  };
 
   const triggerFileInput = () => {
     fileInputRef.current?.click()
@@ -257,5 +257,5 @@ export default function Profile() {
         <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-gray-950 to-transparent -z-10"></div>
       </div>
     </ProtectedRoute>
-  )
+  );
 }
