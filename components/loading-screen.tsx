@@ -33,7 +33,6 @@ export function LoadingScreen({
   return (
     <div className="fixed inset-0 bg-[#0a1520] flex flex-col items-center justify-center z-50">
       <div className="w-full max-w-md px-4 flex flex-col items-center">
-        <GalateaAILogo />
         <CircleLoader />
         <GalateaAIBarLoader progress={progress} message={message} />
       </div>
