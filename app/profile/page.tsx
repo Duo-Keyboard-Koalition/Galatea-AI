@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
 import { useState, useRef } from "react"
 import { useRouter } from "next/navigation"
@@ -30,13 +30,13 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState<"profile" | "security" | "accounts">("profile")
 
   // Connected accounts state
-  const [connectedProviders, setConnectedProviders] = useState<string[]>([])
+  const [connectedProviders, setConnectedProviders] = useState<string[]>([]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!currentUser) return
+    e.preventDefault();
+    if (!currentUser) return;
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       // Update user metadata in Supabase
@@ -52,11 +52,11 @@ export default function Profile() {
       setSuccessMessage("Profile updated successfully!")
       setTimeout(() => setSuccessMessage(""), 3000)
     } catch (err: any) {
-      showMessage(err.message || "Failed to update profile", true)
+      showMessage(err.message || "Failed to update profile", true);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -113,12 +113,12 @@ export default function Profile() {
 
   const handleLogout = async () => {
     try {
-      await logout()
-      router.push("/")
+      await logout();
+      router.push("/");
     } catch (err: any) {
-      showMessage(err.message || "Failed to log out", true)
+      showMessage(err.message || "Failed to log out", true);
     }
-  }
+  };
 
   const triggerFileInput = () => {
     fileInputRef.current?.click()
@@ -273,5 +273,5 @@ export default function Profile() {
         <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-gray-950 to-transparent -z-10"></div>
       </div>
     </ProtectedRoute>
-  )
+  );
 }
