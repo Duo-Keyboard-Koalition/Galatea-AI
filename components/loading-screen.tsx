@@ -43,15 +43,15 @@ export function LoadingScreen({
 }
 
 // Simple circle loader for login/signup
-
- export function SimpleCircleLoader() {
+function SimpleCircleLoader() {
  
   return (
-    <div className="fixed inset-0 bg-[#0a1520] flex flex-col items-center justify-center z-50">
-      <div className="w-full max-w-md px-4 flex flex-col items-center">
-        <CircleLoader />
+    <div className="fixed inset-0 bg-[#0a1520]/90 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="relative">
+        <div className="absolute w-32 h-32 rounded-full border-4 border-t-transparent border-[#2de2e6] animate-spin" />
+        <div className="absolute w-24 h-24 rounded-full border-4 border-b-transparent border-[#0d92ba] animate-spin [animation-delay:500ms]" />
+        <div className="absolute w-16 h-16 rounded-full border-4 border-l-transparent border-[#2de2e6] animate-spin [animation-delay:1000ms]" />
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0a1520] via-[#2de2e6] to-[#0a1520] animate-shimmer" />
     </div>
   )
 }
