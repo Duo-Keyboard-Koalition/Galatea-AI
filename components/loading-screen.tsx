@@ -67,7 +67,7 @@ function GalateaAILogo() {
 }
 
 // Circle loader component
-function CircleLoader() {
+export function CircleLoader() {
   return (
     <div className="relative w-full h-40 flex items-center justify-center mb-8">
       <div className="absolute w-32 h-32 rounded-full border-4 border-t-transparent border-[#2de2e6] animate-spin" />
