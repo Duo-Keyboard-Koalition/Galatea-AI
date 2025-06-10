@@ -9,6 +9,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Navbar } from "@/components/navbar"
+import { LoadingScreen } from "@/components/loading-screen"
 
 type AIProfile = {
   uuid: string
@@ -58,13 +59,14 @@ export default function Home() {
       router.push(`/start-swiping?profiles=${encodeURIComponent(JSON.stringify(profiles))}`)
     } catch (error) {
       console.error("Error initiating swiping:", error)
-    } finally {
       setIsLoading(false)
     }
   }
 
   return (
     <div className="min-h-screen bg-black text-white">
+      {isLoading && <LoadingScreen message="Preparing your AI companions..." onComplete={() => setIsLoading(false)} />}
+
       <Navbar />
 
       <main>
