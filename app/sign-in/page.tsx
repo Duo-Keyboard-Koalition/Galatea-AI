@@ -168,7 +168,9 @@ export default function SignIn() {
                   Forgot password?
                 </Link>
               </div>
+            </div>
 
+            <div className="grid grid-cols-2 gap-4">
               <Button
                 type="submit"
                 disabled={isLoading}
