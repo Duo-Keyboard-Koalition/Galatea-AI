@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useProfileAvatar } from '@/lib/hooks/use-profile-avatar'
 import { AvatarSelector } from './avatar-selector'
+import { LoadingSpinner } from '@/components/loading-spinner'
 
 interface ProfileAvatarSectionProps {
   userId: string
@@ -27,7 +28,7 @@ export function ProfileAvatarSection({ userId }: ProfileAvatarSectionProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center w-24 h-24 bg-gray-800 rounded-full">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500"></div>
+        <LoadingSpinner size="small" />
       </div>
     )
   }
