@@ -5,6 +5,7 @@ import './globals.css'
 import SupabaseConfigScript from "@/components/supabase-config";
 import { SimpleAuthProvider } from "@/contexts/simple-auth-context";
 import { Toaster } from "@/components/ui/toaster";
+import { ModeIndicator } from "@/components/mode-indicator";
 
 export const metadata: Metadata = {
   title: 'Galatea.AI - Your AI Wingman',
@@ -57,6 +58,7 @@ html {
         <SimpleAuthProvider>
           {children}
           <Toaster />
+          <ModeIndicator />
         </SimpleAuthProvider>
       </body>
     </html>
