@@ -7,29 +7,11 @@ import { Button } from "@/components/ui/button"
 import { SwipeCard } from "@/components/swipe-card"
 import { Navbar } from "@/components/navbar"
 import { ProtectedRoute } from "@/components/protected-route"
-import { LoadingSpinner } from "@/components/loading-spinner"
-import { getAllCompanionsClient as getAllCompanions, type AICompanion } from "@/lib/companions"
+import { getAllCompanions, type AICompanion } from "@/lib/companions"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 export default function SwipePage() {
-  // Redirect to enhanced swipe page
-  const router = useRouter()
-  
-  useEffect(() => {
-    router.replace('/swipe/enhanced')
-  }, [router])
-
-  return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <LoadingSpinner size="medium" text="Loading..." />
-      </div>
-    </ProtectedRoute>
-  )
-}
-
-function SwipePageLegacy() {
   const [companions, setCompanions] = useState<AICompanion[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
@@ -114,7 +96,10 @@ function SwipePageLegacy() {
     return (
       <ProtectedRoute>
         <div className="min-h-screen bg-black flex items-center justify-center">
-          <LoadingSpinner size="medium" text="Loading companions..." />
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500 mx-auto mb-4"></div>
+            <p className="text-white">Loading companions...</p>
+          </div>
         </div>
       </ProtectedRoute>
     )
