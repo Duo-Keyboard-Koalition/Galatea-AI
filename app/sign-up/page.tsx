@@ -1,19 +1,35 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/loading-spinner"
 import { Logo } from "@/components/logo"
 import { createClient } from "@/utils/supabase/client"
 import { Mail, Lock, User } from "lucide-react"
+import { isDemoMode } from "@/lib/app-config"
 
 export default function SignUp() {
+  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [firstName, setFirstName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    if (isDemoMode()) {
+      router.push("/dashboard")
+    }
+  }, [router, mounted])
   const [error, setError] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
 

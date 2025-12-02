@@ -2,13 +2,17 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { LoadingSpinner } from "@/components/loading-spinner"
 import { Logo } from "@/components/logo"
 import { createClient } from "@/utils/supabase/client"
 import { Mail, Lock } from "lucide-react"
+import { isDemoMode } from "@/lib/app-config"
 
 export default function SignIn() {
+  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -16,13 +20,23 @@ export default function SignIn() {
   const [successMessage, setSuccessMessage] = useState("")
 
   useEffect(() => {
-    // Get URL params directly from window.location
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    if (isDemoMode()) {
+      router.push("/dashboard")
+      return
+    }
+
     const urlParams = new URLSearchParams(window.location.search)
     const errorParam = urlParams.get("error")
     const messageParam = urlParams.get("message")
     if (errorParam) setError(decodeURIComponent(errorParam))
     if (messageParam) setSuccessMessage(decodeURIComponent(messageParam))
-  }, [])
+  }, [router, mounted])
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault()

@@ -42,7 +42,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/60 backdrop-blur-md border-b border-teal-500/20" : "bg-transparent backdrop-blur-sm"
+        isScrolled ? "bg-black/60 backdrop-blur-md border-b border-[#00FFFF]/20" : "bg-transparent backdrop-blur-sm"
       }`}
     >
       <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
@@ -52,14 +52,20 @@ export function Navbar() {
         {/* Center - Navigation (only show when logged in) */}
         {currentUser && (
           <div className="hidden md:flex space-x-6">
-            <Link href="/dashboard" className="text-gray-300 hover:text-teal-400 transition-colors">
+            <Link href="/dashboard" className="text-gray-300 hover:text-[#00FFFF] transition-colors">
               Dashboard
             </Link>
-            <Link href="/profile" className="text-gray-300 hover:text-teal-400 transition-colors">
+            <Link href="/profile" className="text-gray-300 hover:text-[#00FFFF] transition-colors">
               Profile
             </Link>
-            <Link href="/swipe/enhanced" className="text-gray-300 hover:text-teal-400 transition-colors">
+            <Link href="/discover" className="text-gray-300 hover:text-[#00FFFF] transition-colors">
               Discover
+            </Link>
+            <Link href="/matches" className="text-gray-300 hover:text-[#00FFFF] transition-colors">
+              Matches
+            </Link>
+            <Link href="/chats" className="text-gray-300 hover:text-[#00FFFF] transition-colors">
+              Chats
             </Link>
           </div>
         )}
@@ -74,17 +80,17 @@ export function Navbar() {
             <>
               <Link
                 href="/dashboard"
-                className="flex items-center space-x-3 text-gray-300 hover:text-teal-400 transition-colors group"
+                className="flex items-center space-x-3 text-gray-300 hover:text-[#00FFFF] transition-colors group"
               >
                 {currentUser.user_metadata?.avatar_url ? (
                   <img
                     src={currentUser.user_metadata.avatar_url}
                     alt="Profile"
-                    className="w-8 h-8 rounded-full border-2 border-teal-500 group-hover:border-teal-400 transition-colors"
+                    className="w-8 h-8 rounded-full border-2 border-[#00FFFF] group-hover:border-[#00FFFF]/80 transition-colors"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-teal-500 group-hover:bg-teal-400 transition-colors flex items-center justify-center">
-                    <User size={18} className="text-black" />
+                  <div className="w-8 h-8 rounded-full bg-[#00FFFF] group-hover:bg-[#00FFFF]/80 transition-colors flex items-center justify-center">
+                    <User size={18} className="text-[#0a0a1a]" />
                   </div>
                 )}
                 <span className="text-sm font-medium">
@@ -105,7 +111,7 @@ export function Navbar() {
             </>
           ) : !isAuthPage ? (
             // Not logged in and not on auth page
-            <Button className="bg-teal-500 text-black hover:bg-teal-400" asChild>
+            <Button className="bg-[#00FFFF] text-[#0a0a1a] hover:bg-[#00FFFF]/80 font-semibold" asChild>
               <Link href="/sign-in">Sign In</Link>
             </Button>
           ) : null}
@@ -129,24 +135,38 @@ export function Navbar() {
               <>
                 <Link
                   href="/dashboard"
-                  className="text-gray-300 hover:text-teal-400 transition-colors py-2"
+                  className="text-gray-300 hover:text-[#00FFFF] transition-colors py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Dashboard
                 </Link>
                 <Link
                   href="/profile"
-                  className="text-gray-300 hover:text-teal-400 transition-colors py-2"
+                  className="text-gray-300 hover:text-[#00FFFF] transition-colors py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Profile
                 </Link>
                 <Link
-                  href="/swipe/enhanced"
-                  className="text-gray-300 hover:text-teal-400 transition-colors py-2"
+                  href="/discover"
+                  className="text-gray-300 hover:text-[#00FFFF] transition-colors py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Discover
+                </Link>
+                <Link
+                  href="/matches"
+                  className="text-gray-300 hover:text-[#00FFFF] transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Matches
+                </Link>
+                <Link
+                  href="/chats"
+                  className="text-gray-300 hover:text-[#00FFFF] transition-colors py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Chats
                 </Link>
               </>
             )}
@@ -161,11 +181,11 @@ export function Navbar() {
                       <img
                         src={currentUser.user_metadata.avatar_url}
                         alt="Profile"
-                        className="w-8 h-8 rounded-full border-2 border-teal-500"
+                        className="w-8 h-8 rounded-full border-2 border-[#00FFFF]"
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center">
-                        <User size={18} className="text-black" />
+                      <div className="w-8 h-8 rounded-full bg-[#00FFFF] flex items-center justify-center">
+                        <User size={18} className="text-[#0a0a1a]" />
                       </div>
                     )}
                     <span className="text-sm font-medium">
@@ -181,7 +201,7 @@ export function Navbar() {
                       handleLogout()
                       setIsMobileMenuOpen(false)
                     }}
-                    className="text-gray-300 hover:text-teal-400 justify-start"
+                    className="text-gray-300 hover:text-[#00FFFF] justify-start"
                   >
                     <LogOut size={18} className="mr-2" />
                     Log Out
@@ -189,7 +209,7 @@ export function Navbar() {
                 </>
               ) : !isAuthPage ? (
                 <Button
-                  className="bg-teal-500 text-black hover:bg-teal-400"
+                  className="bg-[#00FFFF] text-[#0a0a1a] hover:bg-[#00FFFF]/80 font-semibold"
                   asChild
                 >
                   <Link href="/sign-in">Sign In</Link>
