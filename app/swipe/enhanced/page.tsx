@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, type PanInfo, useMotionValue, useTransform } from "framer-motion"
-import { Heart, X, Star, MessageCircle, ArrowLeft, Sparkles } from "lucide-react"
+import { Heart, X, Star, MessageCircle, ArrowLeft, Sparkles, Filter, Shuffle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { SwipeCard } from "@/components/swipe-card"
 import { Navbar } from "@/components/navbar"
@@ -11,7 +11,8 @@ import { LoadingSpinner } from "@/components/loading-spinner"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { useToast } from "@/components/ui/use-toast"
-// Edge functions temporarily disabled - focusing on auth
+import { createClient } from "@/utils/supabase/client"
+import { recordSwipeDecision } from "@/lib/database/swipes"
 
 interface AICompanion {
   id: string
@@ -38,6 +39,12 @@ export default function EnhancedSwipePage() {
   const [matches, setMatches] = useState<string[]>([])
   const [rejections, setRejections] = useState<string[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+  const [filters, setFilters] = useState({
+    ageRange: [18, 35],
+    interests: [] as string[],
+    personalities: [] as string[]
+  })
   const router = useRouter()
   const { toast } = useToast()
 
@@ -58,7 +65,34 @@ export default function EnhancedSwipePage() {
       setIsLoading(true)
       setError(null)
       
-      const fetchedCompanions = await getRecommendations(20, [...matches, ...rejections])
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('User not authenticated')
+
+      // Get companions user hasn't swiped on yet
+      const { data: swipedCompanions } = await supabase
+        .from('swipe_decisions')
+        .select('companion_id')
+        .eq('user_id', user.id)
+
+      const swipedIds = swipedCompanions?.map(s => s.companion_id) || []
+
+      let query = supabase
+        .from('companions')
+        .select('*')
+        .eq('is_active', true)
+        .not('id', 'in', `(${swipedIds.length > 0 ? swipedIds.join(',') : 'null'})`)
+
+      // Apply filters
+      if (filters.ageRange) {
+        query = query.gte('age', filters.ageRange[0]).lte('age', filters.ageRange[1])
+      }
+
+      const { data: fetchedCompanions, error: companionsError } = await query
+        .order('compatibility_score', { ascending: false })
+        .limit(20)
+
+      if (companionsError) throw companionsError
       
       if (fetchedCompanions.length === 0) {
         setError("No more companions available. Check back later!")
@@ -89,36 +123,40 @@ export default function EnhancedSwipePage() {
         decision = 'pass'
       }
 
-      const result = await processSwipe(currentCompanion.id, decision)
+      // Record swipe decision
+      await recordSwipeDecision(currentCompanion.id, decision)
 
-      if (result.success) {
-        if (decision === 'like' || decision === 'super_like') {
-          setMatches(prev => [...prev, currentCompanion.id])
-          
-          if (result.isMatch) {
-            toast({
-              title: "🎉 It's a Match!",
-              description: `You matched with ${currentCompanion.name}! Start chatting now.`,
-            })
-          }
-        } else {
-          setRejections(prev => [...prev, currentCompanion.id])
-        }
+      if (decision === 'like' || decision === 'super_like') {
+        setMatches(prev => [...prev, currentCompanion.id])
+        
+        // Check if match was created
+        const supabase = createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+        
+        const { data: match } = await supabase
+          .from('matches')
+          .select('id')
+          .eq('user_id', user?.id)
+          .eq('companion_id', currentCompanion.id)
+          .single()
 
-        // Move to next companion
-        if (currentIndex < companions.length - 1) {
-          setCurrentIndex(prev => prev + 1)
-        } else {
-          // Load more companions or show completion
-          await loadCompanions()
-          setCurrentIndex(0)
+        if (match) {
+          toast({
+            title: "🎉 It's a Match!",
+            description: `You matched with ${currentCompanion.name}! Start chatting now.`,
+          })
         }
       } else {
-        toast({
-          title: "Error",
-          description: result.error || "Failed to process swipe",
-          variant: "destructive"
-        })
+        setRejections(prev => [...prev, currentCompanion.id])
+      }
+
+      // Move to next companion
+      if (currentIndex < companions.length - 1) {
+        setCurrentIndex(prev => prev + 1)
+      } else {
+        // Load more companions or show completion
+        await loadCompanions()
+        setCurrentIndex(0)
       }
     } catch (error) {
       console.error("Swipe error:", error)
@@ -149,6 +187,12 @@ export default function EnhancedSwipePage() {
     x.set(0)
   }
 
+  const shuffleCompanions = () => {
+    const shuffled = [...companions].sort(() => Math.random() - 0.5)
+    setCompanions(shuffled)
+    setCurrentIndex(0)
+  }
+
   if (isLoading) {
     return (
       <ProtectedRoute>
@@ -166,10 +210,17 @@ export default function EnhancedSwipePage() {
           <Navbar />
           <div className="flex items-center justify-center min-h-screen">
             <div className="text-center">
-              <p className="text-red-500 mb-4">{error}</p>
-              <Button onClick={loadCompanions} className="bg-teal-500 text-black hover:bg-teal-400">
-                Try Again
-              </Button>
+              <Sparkles className="h-16 w-16 text-teal-400 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-white mb-4">All caught up!</h2>
+              <p className="text-gray-300 mb-8">{error}</p>
+              <div className="space-y-4">
+                <Button onClick={loadCompanions} className="bg-teal-500 text-black hover:bg-teal-400 w-full">
+                  Refresh
+                </Button>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/matches">View Your Matches ({matches.length})</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -211,7 +262,7 @@ export default function EnhancedSwipePage() {
         <Navbar />
 
         <main className="pt-20 pb-8 px-4">
-          {/* Header */}
+          {/* Enhanced Header */}
           <div className="flex items-center justify-between mb-6 max-w-md mx-auto">
             <Button variant="ghost" size="icon" asChild>
               <Link href="/dashboard">
@@ -224,17 +275,38 @@ export default function EnhancedSwipePage() {
                 {currentIndex + 1} of {companions.length}
               </p>
             </div>
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="/matches">
-                <Heart className="h-6 w-6 text-teal-400" />
-                {matches.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-teal-500 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {matches.length}
-                  </span>
-                )}
-              </Link>
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="ghost" size="icon" onClick={shuffleCompanions}>
+                <Shuffle className="h-5 w-5 text-gray-400" />
+              </Button>
+              <Button variant="ghost" size="icon" onClick={() => setShowFilters(!showFilters)}>
+                <Filter className="h-5 w-5 text-gray-400" />
+              </Button>
+            </div>
           </div>
+
+          {/* Filters Panel */}
+          {showFilters && (
+            <div className="max-w-md mx-auto mb-6 p-4 bg-gray-900 rounded-lg border border-gray-700">
+              <h3 className="text-white font-semibold mb-3">Filters</h3>
+              <div className="space-y-3">
+                <div>
+                  <label className="text-sm text-gray-400">Age Range: {filters.ageRange[0]} - {filters.ageRange[1]}</label>
+                  <input
+                    type="range"
+                    min="18"
+                    max="50"
+                    value={filters.ageRange[1]}
+                    onChange={(e) => setFilters(prev => ({ ...prev, ageRange: [18, parseInt(e.target.value)] }))}
+                    className="w-full mt-1"
+                  />
+                </div>
+                <Button onClick={loadCompanions} size="sm" className="w-full bg-teal-500 text-black">
+                  Apply Filters
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Card Stack */}
           <div className="relative max-w-md mx-auto h-[600px]">
@@ -279,19 +351,19 @@ export default function EnhancedSwipePage() {
               />
             </motion.div>
 
-            {/* Swipe indicators */}
+            {/* Enhanced Swipe indicators */}
             <motion.div
-              className="absolute top-20 left-8 bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-[-30deg] border-4 border-red-500"
+              className="absolute top-20 left-8 bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-[-30deg] border-4 border-red-500 shadow-lg"
               style={{
                 opacity: nopeOpacity,
                 scale: nopeScale,
               }}
             >
-              NOPE
+              PASS
             </motion.div>
 
             <motion.div
-              className="absolute top-20 right-8 bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-[30deg] border-4 border-green-500"
+              className="absolute top-20 right-8 bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-lg rotate-[30deg] border-4 border-green-500 shadow-lg"
               style={{
                 opacity: likeOpacity,
                 scale: likeScale,
@@ -301,59 +373,82 @@ export default function EnhancedSwipePage() {
             </motion.div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Enhanced Action Buttons */}
           <div className="flex justify-center items-center gap-6 mt-8">
             <Button
               size="lg"
               variant="outline"
-              className="rounded-full w-14 h-14 border-red-500 text-red-500 hover:bg-red-500/10 hover:text-red-400"
+              className="rounded-full w-16 h-16 border-red-500 text-red-500 hover:bg-red-500/10 hover:text-red-400 hover:scale-110 transition-all"
               onClick={() => handleSwipe("left")}
               disabled={isProcessing}
             >
-              <X className="h-6 w-6" />
+              <X className="h-7 w-7" />
             </Button>
 
             <Button
               size="lg"
               variant="outline"
-              className="rounded-full w-12 h-12 border-blue-500 text-blue-500 hover:bg-blue-500/10 hover:text-blue-400"
+              className="rounded-full w-14 h-14 border-blue-500 text-blue-500 hover:bg-blue-500/10 hover:text-blue-400 hover:scale-110 transition-all"
               onClick={() => handleSwipe("up")}
               disabled={isProcessing}
             >
-              <Star className="h-5 w-5" />
+              <Star className="h-6 w-6" />
             </Button>
 
             <Button
               size="lg"
               variant="outline"
-              className="rounded-full w-14 h-14 border-green-500 text-green-500 hover:bg-green-500/10 hover:text-green-400"
+              className="rounded-full w-16 h-16 border-green-500 text-green-500 hover:bg-green-500/10 hover:text-green-400 hover:scale-110 transition-all"
               onClick={() => handleSwipe("right")}
               disabled={isProcessing}
             >
-              <Heart className="h-6 w-6" />
+              <Heart className="h-7 w-7" />
             </Button>
 
             <Button
               size="lg"
               variant="outline"
-              className="rounded-full w-12 h-12 border-purple-500 text-purple-500 hover:bg-purple-500/10 hover:text-purple-400"
+              className="rounded-full w-14 h-14 border-purple-500 text-purple-500 hover:bg-purple-500/10 hover:text-purple-400 hover:scale-110 transition-all"
               onClick={() => router.push('/chats')}
             >
-              <MessageCircle className="h-5 w-5" />
+              <MessageCircle className="h-6 w-6" />
             </Button>
           </div>
 
-          {/* Progress indicator */}
+          {/* Enhanced Progress indicator */}
           <div className="max-w-md mx-auto mt-6">
-            <div className="w-full bg-gray-800 rounded-full h-2">
+            <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
               <div
-                className="bg-teal-500 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-teal-500 to-blue-500 h-3 rounded-full transition-all duration-500 ease-out"
                 style={{ width: `${((currentIndex + 1) / companions.length) * 100}%` }}
               />
             </div>
-            <div className="flex justify-between text-xs text-gray-400 mt-2">
-              <span>Matches: {matches.length}</span>
+            <div className="flex justify-between text-xs text-gray-400 mt-3">
+              <span className="flex items-center gap-1">
+                <Heart className="h-3 w-3 text-green-500" />
+                Matches: {matches.length}
+              </span>
               <span>Remaining: {companions.length - currentIndex - 1}</span>
+              <span className="flex items-center gap-1">
+                <X className="h-3 w-3 text-red-500" />
+                Passed: {rejections.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="max-w-md mx-auto mt-6 grid grid-cols-3 gap-4 text-center">
+            <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-800">
+              <div className="text-lg font-bold text-green-400">{matches.length}</div>
+              <div className="text-xs text-gray-400">Matches</div>
+            </div>
+            <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-800">
+              <div className="text-lg font-bold text-blue-400">{currentCompanion?.compatibility_score || 0}%</div>
+              <div className="text-xs text-gray-400">Compatibility</div>
+            </div>
+            <div className="bg-gray-900/50 rounded-lg p-3 border border-gray-800">
+              <div className="text-lg font-bold text-purple-400">{companions.length - currentIndex - 1}</div>
+              <div className="text-xs text-gray-400">Remaining</div>
             </div>
           </div>
         </main>

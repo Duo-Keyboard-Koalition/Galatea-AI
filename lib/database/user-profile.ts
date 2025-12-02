@@ -10,6 +10,7 @@ export interface UserProfile {
   personality_traits: string[]
   preferences: Record<string, any>
   avatar_url?: string
+  metamask_wallet_address?: string | null
   is_active: boolean
   last_active_at: string
   created_at: string

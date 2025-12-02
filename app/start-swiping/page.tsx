@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { LoadingSpinner } from "@/components/loading-spinner"
@@ -32,23 +31,28 @@ export default function StartSwiping() {
   const [error, setError] = useState<string | null>(null)
   const [swipeDirection, setSwipeDirection] = useState<string | null>(null)
 
-  const searchParams = useSearchParams()
-
   useEffect(() => {
-    const profilesParam = searchParams.get("profiles")
-    if (profilesParam) {
-      try {
-        const parsedProfiles = JSON.parse(decodeURIComponent(profilesParam)) as AIProfile[]
-        setProfiles(parsedProfiles)
-        setIsLoading(false)
-      } catch (err) {
-        setError("Failed to parse profiles. Please try again.")
-        setIsLoading(false)
+    // Check for profiles in URL params
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search)
+      const profilesParam = urlParams.get("profiles")
+      if (profilesParam) {
+        try {
+          const parsedProfiles = JSON.parse(decodeURIComponent(profilesParam)) as AIProfile[]
+          setProfiles(parsedProfiles)
+          setIsLoading(false)
+          return
+        } catch (err) {
+          setError("Failed to parse profiles. Please try again.")
+          setIsLoading(false)
+          return
+        }
       }
-    } else {
-      initiateSwipe()
     }
-  }, [searchParams])
+    
+    // If no profiles in URL, initiate swipe
+    initiateSwipe()
+  }, [])
 
   async function initiateSwipe() {
     try {

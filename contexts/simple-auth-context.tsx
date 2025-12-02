@@ -3,16 +3,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import type { User } from '@supabase/supabase-js'
-import { isDemoMode } from '@/lib/app-config'
 
 interface AuthContextType {
   currentUser: User | null
   loading: boolean
   logout: () => Promise<void>
-  demoUser?: {
-    name: string
-    gender: 'male' | 'female'
-  }
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -21,35 +16,10 @@ const AuthContext = createContext<AuthContextType>({
   logout: async () => {},
 })
 
-const DEMO_USER_MALE: User = {
-  id: 'demo-user-male',
-  email: 'john.smith@demo.com',
-  user_metadata: {
-    full_name: 'John Smith',
-    gender: 'male',
-  },
-  app_metadata: {},
-  aud: 'authenticated',
-  created_at: new Date().toISOString(),
-} as User
-
-const DEMO_USER_FEMALE: User = {
-  id: 'demo-user-female',
-  email: 'jane.smith@demo.com',
-  user_metadata: {
-    full_name: 'Jane Smith',
-    gender: 'female',
-  },
-  app_metadata: {},
-  aud: 'authenticated',
-  created_at: new Date().toISOString(),
-} as User
-
 export function SimpleAuthProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
-  const [demoGender, setDemoGender] = useState<'male' | 'female'>('male')
 
   useEffect(() => {
     setMounted(true)
@@ -57,15 +27,6 @@ export function SimpleAuthProvider({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     if (!mounted) return
-
-    if (isDemoMode()) {
-      const storedGender = localStorage.getItem('demo_gender') as 'male' | 'female' | null
-      const gender = storedGender || 'male'
-      setDemoGender(gender)
-      setCurrentUser(gender === 'male' ? DEMO_USER_MALE : DEMO_USER_FEMALE)
-      setLoading(false)
-      return
-    }
 
     let supabase: any = null;
 
@@ -101,11 +62,6 @@ export function SimpleAuthProvider({ children }: { children: React.ReactNode }) 
   }, [mounted])
 
   const logout = async () => {
-    if (isDemoMode()) {
-      setCurrentUser(null)
-      return
-    }
-
     try {
       const supabase = createClient()
       await supabase.auth.signOut()
@@ -121,10 +77,6 @@ export function SimpleAuthProvider({ children }: { children: React.ReactNode }) 
         currentUser,
         loading,
         logout,
-        demoUser: isDemoMode() ? {
-          name: demoGender === 'male' ? 'John Smith' : 'Jane Smith',
-          gender: demoGender
-        } : undefined
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -8,7 +8,6 @@ import { LoadingSpinner } from "@/components/loading-spinner"
 import { Logo } from "@/components/logo"
 import { createClient } from "@/utils/supabase/client"
 import { Mail, Lock } from "lucide-react"
-import { isDemoMode } from "@/lib/app-config"
 
 export default function SignIn() {
   const router = useRouter()
@@ -25,11 +24,6 @@ export default function SignIn() {
 
   useEffect(() => {
     if (!mounted) return
-
-    if (isDemoMode()) {
-      router.push("/dashboard")
-      return
-    }
 
     const urlParams = new URLSearchParams(window.location.search)
     const errorParam = urlParams.get("error")
@@ -58,7 +52,7 @@ export default function SignIn() {
       setError(e?.message || "Failed to sign in with email")
       setIsLoading(false)
     }
-  }
+  };
 
   const handleDiscordSignIn = async () => {
     setIsLoading(true)
@@ -83,7 +77,7 @@ export default function SignIn() {
       setError(e?.message || "Failed to sign in with Discord")
       setIsLoading(false)
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center relative">
@@ -93,9 +87,13 @@ export default function SignIn() {
       }}></div>
       
       <div className="relative w-full max-w-md px-8 py-12">
-        {/* Logo */}
-        <div className="flex justify-center mb-8">
-          <Logo size="medium" showText={true} className="pointer-events-none" />
+        {/* Logo / Loading Spinner - Centered at same point */}
+        <div className="flex justify-center items-center mb-8 relative" style={{ height: '48px' }}>
+          {isLoading ? (
+            <LoadingSpinner size="medium" />
+          ) : (
+            <Logo size="medium" showText={true} className="pointer-events-none" />
+          )}
         </div>
 
         {/* Error/Success Messages */}
@@ -127,69 +125,62 @@ export default function SignIn() {
           </div>
         </div>
 
-            {/* Sign In Form */}
-            <form onSubmit={handleEmailSignIn} className="space-y-6">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-700 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors bg-gray-900 text-white placeholder-gray-500"
-                  />
-                </div>
-              </div>
+        {/* Sign In Form */}
+        <form onSubmit={handleEmailSignIn} className="space-y-6">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              Email Address
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                className="w-full pl-10 pr-4 py-3 border border-gray-700 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors bg-gray-900 text-white placeholder-gray-500"
+              />
+            </div>
+          </div>
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
-                  <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    required
-                    className="w-full pl-10 pr-4 py-3 border border-gray-700 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors bg-gray-900 text-white placeholder-gray-500"
-                  />
-                </div>
-              </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                className="w-full pl-10 pr-4 py-3 border border-gray-700 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-colors bg-gray-900 text-white placeholder-gray-500"
+              />
+            </div>
+          </div>
 
-              <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input type="checkbox" className="w-4 h-4 text-teal-500 border-gray-600 rounded focus:ring-teal-500 bg-gray-900" />
-                  <span className="ml-2 text-sm text-gray-400">Remember me</span>
-                </label>
-                <Link href="/auth/reset-password" className="text-sm text-teal-400 hover:text-teal-300">
-                  Forgot password?
-                </Link>
-              </div>
+          <div className="flex items-center justify-between">
+            <label className="flex items-center">
+              <input type="checkbox" className="w-4 h-4 text-teal-500 border-gray-600 rounded focus:ring-teal-500 bg-gray-900" />
+              <span className="ml-2 text-sm text-gray-400">Remember me</span>
+            </label>
+            <Link href="/auth/reset-password" className="text-sm text-teal-400 hover:text-teal-300">
+              Forgot password?
+            </Link>
+          </div>
 
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-teal-500 hover:bg-teal-400 text-black font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:transform-none"
-              >
-                {isLoading ? (
-                  <div className="flex items-center justify-center">
-                    <LoadingSpinner size="small" className="border-black mr-3" />
-                    Signing you in...
-                  </div>
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
-            </form>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-teal-500 hover:bg-teal-400 text-black font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:transform-none"
+          >
+            {isLoading ? "Signing you in..." : "Sign In"}
+          </Button>
+        </form>
 
         {/* Sign Up Button */}
         <div className="mt-6">

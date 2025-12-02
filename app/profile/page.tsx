@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Navbar } from "@/components/navbar"
 import { ProtectedRoute } from "@/components/protected-route"
 import { LoadingSpinner } from "@/components/loading-spinner"
+import { MetaMaskConnector } from "@/components/metamask-connector"
 import { useAuth } from "@/contexts/simple-auth-context"
 import { uploadProfilePicture, deleteProfilePicture } from "@/lib/storage"
 import { createClient } from "@/utils/supabase/client"
@@ -50,7 +51,7 @@ export default function Profile() {
     } catch (err: any) {
       setError(err.message || "Failed to update profile")
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -105,7 +106,7 @@ export default function Profile() {
     } finally {
       setIsUploadingImage(false)
     }
-  }
+  };
 
   const handleLogout = async () => {
     try {
@@ -235,6 +236,15 @@ export default function Profile() {
                 </Button>
               </div>
             </form>
+
+            {/* MetaMask Wallet Connection */}
+            <div className="mt-6 p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+              <h3 className="text-sm font-medium text-white mb-3">MetaMask Wallet</h3>
+              <p className="text-xs text-gray-400 mb-4">
+                Connect your MetaMask wallet to your account. Each account can have one wallet connected.
+              </p>
+              <MetaMaskConnector showStatus={true} />
+            </div>
 
             {/* Upload instructions */}
             <div className="mt-6 p-4 bg-gray-900/50 rounded-lg border border-gray-800">
