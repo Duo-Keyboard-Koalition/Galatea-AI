@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Navbar } from "@/components/navbar"
 import { ProtectedRoute } from "@/components/protected-route"
+import { LoadingSpinner } from "@/components/loading-spinner"
 import { useAuth } from "@/contexts/simple-auth-context"
 import { uploadProfilePicture, deleteProfilePicture } from "@/lib/storage"
 import { createClient } from "@/utils/supabase/client"
@@ -147,7 +148,7 @@ export default function Profile() {
                   {/* Loading overlay */}
                   {isUploadingImage && (
                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-teal-500"></div>
+                      <LoadingSpinner size="small" />
                     </div>
                   )}
                 </div>

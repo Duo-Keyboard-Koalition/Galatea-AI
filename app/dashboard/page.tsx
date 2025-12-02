@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Navbar } from "@/components/navbar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { LoadingSpinner } from "@/components/loading-spinner"
 import { useAuth } from "@/contexts/simple-auth-context"
 import { Users, MessageCircle, Heart, TrendingUp } from "lucide-react"
 
@@ -27,10 +28,7 @@ export default function Dashboard() {
   if (!mounted || loading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-teal-500 mx-auto mb-4"></div>
-          <p className="text-lg">Loading your dashboard...</p>
-        </div>
+        <LoadingSpinner size="xlarge" text="Loading your dashboard..." />
       </div>
     )
   }

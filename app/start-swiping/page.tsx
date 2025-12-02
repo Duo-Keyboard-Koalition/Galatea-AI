@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { LoadingSpinner } from "@/components/loading-spinner"
 import { Heart, X } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { ProtectedRoute } from "@/components/protected-route"
@@ -112,7 +113,7 @@ export default function StartSwiping() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="animate-pulse text-teal-400 text-2xl">Loading...</div>
+        <LoadingSpinner size="large" text="Loading..." />
       </div>
     )
   }

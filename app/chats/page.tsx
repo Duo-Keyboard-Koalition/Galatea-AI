@@ -10,6 +10,7 @@ import { ArrowLeft, MessageCircle, Search, Send, Smile, Paperclip, MoveVertical 
 import { Navbar } from "@/components/navbar"
 import { ProtectedRoute } from "@/components/protected-route"
 import { createClient } from "@/utils/supabase/client"
+import { LoadingSpinner } from "@/components/loading-spinner"
 import { useToast } from "@/components/ui/use-toast"
 
 interface Message {
@@ -290,10 +291,7 @@ function ChatsPageContent() {
     return (
       <ProtectedRoute>
         <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500 mx-auto mb-4"></div>
-            <p className="text-white">Loading conversations...</p>
-          </div>
+          <LoadingSpinner size="medium" text="Loading conversations..." />
         </div>
       </ProtectedRoute>
     )

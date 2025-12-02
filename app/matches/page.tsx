@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { ArrowLeft, MessageCircle, Heart, Sparkles, Search, Filter, Calendar, Users } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { ProtectedRoute } from "@/components/protected-route"
+import { LoadingSpinner } from "@/components/loading-spinner"
 import { createClient } from "@/utils/supabase/client"
 import { useToast } from "@/components/ui/use-toast"
 
@@ -178,10 +179,7 @@ export default function MatchesPage() {
     return (
       <ProtectedRoute>
         <div className="min-h-screen bg-black flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500 mx-auto mb-4"></div>
-            <p className="text-white">Loading your matches...</p>
-          </div>
+          <LoadingSpinner size="medium" text="Loading matches..." />
         </div>
       </ProtectedRoute>
     )
