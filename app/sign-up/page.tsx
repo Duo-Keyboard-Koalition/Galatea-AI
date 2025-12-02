@@ -8,7 +8,6 @@ import { LoadingSpinner } from "@/components/loading-spinner"
 import { Logo } from "@/components/logo"
 import { createClient } from "@/utils/supabase/client"
 import { Mail, Lock, User } from "lucide-react"
-import { isDemoMode } from "@/lib/app-config"
 
 export default function SignUp() {
   const router = useRouter()
@@ -22,14 +21,6 @@ export default function SignUp() {
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  useEffect(() => {
-    if (!mounted) return
-
-    if (isDemoMode()) {
-      router.push("/dashboard")
-    }
-  }, [router, mounted])
   const [error, setError] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
 

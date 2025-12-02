@@ -8,7 +8,6 @@ import { LoadingSpinner } from "@/components/loading-spinner"
 import { Logo } from "@/components/logo"
 import { createClient } from "@/utils/supabase/client"
 import { Mail, Lock } from "lucide-react"
-import { isDemoMode } from "@/lib/app-config"
 
 export default function SignIn() {
   const router = useRouter()
@@ -25,11 +24,6 @@ export default function SignIn() {
 
   useEffect(() => {
     if (!mounted) return
-
-    if (isDemoMode()) {
-      router.push("/dashboard")
-      return
-    }
 
     const urlParams = new URLSearchParams(window.location.search)
     const errorParam = urlParams.get("error")

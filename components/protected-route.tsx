@@ -6,14 +6,13 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/simple-auth-context"
 import { LoadingSpinner } from "@/components/loading-spinner"
-import { isDemoMode } from "@/lib/app-config"
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { currentUser, loading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    if (!loading && !currentUser && !isDemoMode()) {
+    if (!loading && !currentUser) {
       router.push("/sign-in")
     }
   }, [currentUser, loading, router])
@@ -22,5 +21,5 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <LoadingSpinner size="medium" fullScreen />
   }
 
-  return currentUser || isDemoMode() ? <>{children}</> : null
+  return currentUser ? <>{children}</> : null
 }

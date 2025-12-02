@@ -6,6 +6,7 @@ import SupabaseConfigScript from "@/components/supabase-config";
 import { SimpleAuthProvider } from "@/contexts/simple-auth-context";
 import { Toaster } from "@/components/ui/toaster";
 import { ModeIndicator } from "@/components/mode-indicator";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: 'Galatea.AI - Your AI Wingman',
@@ -59,6 +60,7 @@ html {
           {children}
           <Toaster />
           <ModeIndicator />
+          <SpeedInsights />
         </SimpleAuthProvider>
       </body>
     </html>
