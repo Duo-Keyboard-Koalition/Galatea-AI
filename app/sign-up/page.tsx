@@ -12,17 +12,24 @@ import { isDemoMode } from "@/lib/app-config"
 
 export default function SignUp() {
   const router = useRouter()
-
-  useEffect(() => {
-    if (isDemoMode()) {
-      router.push("/dashboard")
-    }
-  }, [router])
+  const [mounted, setMounted] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [firstName, setFirstName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    if (isDemoMode()) {
+      router.push("/dashboard")
+    }
+  }, [router, mounted])
   const [error, setError] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
 

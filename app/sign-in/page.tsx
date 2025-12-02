@@ -12,6 +12,7 @@ import { isDemoMode } from "@/lib/app-config"
 
 export default function SignIn() {
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -19,6 +20,12 @@ export default function SignIn() {
   const [successMessage, setSuccessMessage] = useState("")
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     if (isDemoMode()) {
       router.push("/dashboard")
       return
@@ -29,7 +36,7 @@ export default function SignIn() {
     const messageParam = urlParams.get("message")
     if (errorParam) setError(decodeURIComponent(errorParam))
     if (messageParam) setSuccessMessage(decodeURIComponent(messageParam))
-  }, [router])
+  }, [router, mounted])
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
