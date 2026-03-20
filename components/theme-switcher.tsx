@@ -15,17 +15,18 @@ import {
 
 const themes = [
   {
-    id: "cyber-teal",
-    label: "Cyber Teal",
-    description: "Dark navy with teal accents",
-    swatches: ["#0a0e1a", "#00b8ba", "#1a2540"],
-  },
-  {
     id: "rose-earth",
     label: "Rose Earth",
     description: "Warm ivory with rose accents",
     swatches: ["#f7f3ee", "#c0392b", "#d6c9b8"],
   },
+  {
+    id: "cyber-teal",
+    label: "Cyber Teal",
+    description: "Dark navy with teal accents",
+    swatches: ["#0a0e1a", "#00b8ba", "#1a2540"],
+  },
+
   {
     id: "black-cyan",
     label: "Black Cyan",
