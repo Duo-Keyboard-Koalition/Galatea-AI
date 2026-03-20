@@ -101,57 +101,53 @@ export default function SignUpPage() {
       </div>
 
       {/* Sign Up Card */}
-      <div className="auth-card rounded-xl w-full max-w-4xl mx-4 z-10 overflow-hidden">
+      <div className="rounded-xl w-full max-w-4xl mx-4 z-10 overflow-hidden bg-card/80 backdrop-blur-md border border-border">
         <div className="flex flex-col md:flex-row">
           {/* Left Side - Sign Up Form */}
           <div className="w-full md:w-1/2 p-8">
-            <h2 className="text-2xl font-bold mb-6 text-galatea-light">Create Account</h2>
+            <h2 className="text-2xl font-bold mb-6 text-foreground">Create Account</h2>
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-galatea-light/90">
+                <Label htmlFor="name" className="text-foreground/90">
                   Full Name
                 </Label>
-                <Input id="name" type="text" placeholder="Enter your full name" className="cyber-input" required />
+                <Input id="name" type="text" placeholder="Enter your full name" required />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-galatea-light/90">
+                <Label htmlFor="email" className="text-foreground/90">
                   Email
                 </Label>
-                <Input id="email" type="email" placeholder="Enter your email" className="cyber-input" required />
+                <Input id="email" type="email" placeholder="Enter your email" required />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-galatea-light/90">
+                <Label htmlFor="password" className="text-foreground/90">
                   Password
                 </Label>
-                <Input id="password" type="password" placeholder="Create a password" className="cyber-input" required />
+                <Input id="password" type="password" placeholder="Create a password" required />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirm-password" className="text-galatea-light/90">
+                <Label htmlFor="confirm-password" className="text-foreground/90">
                   Confirm Password
                 </Label>
                 <Input
                   id="confirm-password"
                   type="password"
                   placeholder="Confirm your password"
-                  className="cyber-input"
                   required
                 />
               </div>
 
-              <Button
-                type="submit"
-                className="w-full cyber-button bg-galatea-teal text-galatea-black hover:bg-galatea-teal/90"
-              >
+              <Button type="submit" className="w-full">
                 Create Account
               </Button>
 
               <div className="text-center mt-6">
-                <p className="text-galatea-light/70">
+                <p className="text-foreground/70">
                   Already have an account?{" "}
-                  <Link href="/signin" className="text-galatea-teal hover:underline">
+                  <Link href="/signin" className="text-primary hover:underline">
                     Sign in
                   </Link>
                 </p>
@@ -160,43 +156,43 @@ export default function SignUpPage() {
           </div>
 
           {/* Divider for desktop */}
-          <div className="hidden md:block auth-divider"></div>
+          <div className="hidden md:block w-px bg-border"></div>
 
           {/* Right Side - Benefits */}
-          <div className="w-full md:w-1/2 p-8 border-t border-galatea-teal/20 md:border-t-0">
-            <h2 className="text-2xl font-bold mb-6 text-galatea-light">Benefits</h2>
+          <div className="w-full md:w-1/2 p-8 border-t border-border md:border-t-0">
+            <h2 className="text-2xl font-bold mb-6 text-foreground">Benefits</h2>
             <div className="space-y-6">
               <div className="flex items-start space-x-3">
-                <div className="bg-teal-500/20 p-2 rounded-full">
-                  <HeartIcon className="h-5 w-5 text-teal-400" />
+                <div className="bg-primary/20 p-2 rounded-full">
+                  <HeartIcon className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-galatea-light">Personalized Companions</h3>
-                  <p className="text-galatea-light/70">
+                  <h3 className="text-lg font-semibold text-foreground">Personalized Companions</h3>
+                  <p className="text-foreground/70">
                     Create and customize AI companions tailored to your preferences.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <div className="bg-teal-500/20 p-2 rounded-full">
-                  <SparklesIcon className="h-5 w-5 text-teal-400" />
+                <div className="bg-primary/20 p-2 rounded-full">
+                  <SparklesIcon className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-galatea-light">Advanced AI Technology</h3>
-                  <p className="text-galatea-light/70">
+                  <h3 className="text-lg font-semibold text-foreground">Advanced AI Technology</h3>
+                  <p className="text-foreground/70">
                     Experience cutting-edge AI that learns and adapts to your interactions.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <div className="bg-teal-500/20 p-2 rounded-full">
-                  <ShieldCheckIcon className="h-5 w-5 text-teal-400" />
+                <div className="bg-primary/20 p-2 rounded-full">
+                  <ShieldCheckIcon className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-galatea-light">Privacy & Security</h3>
-                  <p className="text-galatea-light/70">
+                  <h3 className="text-lg font-semibold text-foreground">Privacy & Security</h3>
+                  <p className="text-foreground/70">
                     Your data is encrypted and protected with the highest security standards.
                   </p>
                 </div>
@@ -204,13 +200,13 @@ export default function SignUpPage() {
             </div>
 
             <div className="mt-8 text-center">
-              <p className="text-galatea-light/50 text-sm">
+              <p className="text-foreground/50 text-sm">
                 By signing up, you agree to our{" "}
-                <Link href="/terms" className="text-galatea-teal/70 hover:text-galatea-teal">
+                <Link href="/terms" className="text-primary/70 hover:text-primary">
                   Terms of Service
                 </Link>{" "}
                 and{" "}
-                <Link href="/privacy" className="text-galatea-teal/70 hover:text-galatea-teal">
+                <Link href="/privacy" className="text-primary/70 hover:text-primary">
                   Privacy Policy
                 </Link>
               </p>

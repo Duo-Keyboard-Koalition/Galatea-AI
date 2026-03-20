@@ -23,9 +23,9 @@ export function Logo({ size = "medium", showText = true, className = "" }: LogoP
       </div>
       {showText && (
         <span
-          className={`font-bold text-white ${size === "large" ? "text-3xl" : size === "small" ? "text-lg" : "text-2xl"}`}
+          className={`font-bold text-foreground ${size === "large" ? "text-3xl" : size === "small" ? "text-lg" : "text-2xl"}`}
         >
-          Galatea<span className="text-teal-400">.AI</span>
+          Galatea<span className="text-primary">.AI</span>
         </span>
       )}
     </Link>

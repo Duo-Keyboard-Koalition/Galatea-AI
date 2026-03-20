@@ -50,9 +50,9 @@ export function ProfileSetupForm() {
 
   if (isSubmitted) {
     return (
-      <div className="text-center p-8 bg-dark-300/50 rounded-lg border border-teal-500/30">
-        <h2 className="text-2xl font-bold text-teal-400 mb-4">Profile Saved Successfully!</h2>
-        <p className="text-gray-300 mb-6">Thank you for setting up your profile, {formData.name}.</p>
+      <div className="text-center p-8 bg-muted/50 rounded-lg border border-primary/30">
+        <h2 className="text-2xl font-bold text-primary mb-4">Profile Saved Successfully!</h2>
+        <p className="text-foreground/70 mb-6">Thank you for setting up your profile, {formData.name}.</p>
         <Button onClick={() => setIsSubmitted(false)}>Edit Profile</Button>
       </div>
     )
@@ -61,7 +61,7 @@ export function ProfileSetupForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-gray-200">
+        <Label htmlFor="name" className="text-foreground/80">
           Name
         </Label>
         <Input
@@ -70,12 +70,12 @@ export function ProfileSetupForm() {
           value={formData.name}
           onChange={handleChange}
           required
-          className="bg-dark-300 border-dark-400 focus:border-teal-500"
+          className="bg-muted border-border focus:border-primary"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="age" className="text-gray-200">
+        <Label htmlFor="age" className="text-foreground/80">
           Age
         </Label>
         <Input
@@ -85,12 +85,12 @@ export function ProfileSetupForm() {
           value={formData.age}
           onChange={handleChange}
           required
-          className="bg-dark-300 border-dark-400 focus:border-teal-500"
+          className="bg-muted border-border focus:border-primary"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="gender" className="text-gray-200">
+        <Label htmlFor="gender" className="text-foreground/80">
           Gender
         </Label>
         <Select
@@ -99,12 +99,12 @@ export function ProfileSetupForm() {
           value={formData.gender}
           onChange={handleChange}
           options={genderOptions}
-          className="bg-dark-300 border-dark-400 focus:border-teal-500"
+          className="bg-muted border-border focus:border-primary"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="occupation" className="text-gray-200">
+        <Label htmlFor="occupation" className="text-foreground/80">
           Occupation
         </Label>
         <Input
@@ -112,12 +112,12 @@ export function ProfileSetupForm() {
           name="occupation"
           value={formData.occupation}
           onChange={handleChange}
-          className="bg-dark-300 border-dark-400 focus:border-teal-500"
+          className="bg-muted border-border focus:border-primary"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="interests" className="text-gray-200">
+        <Label htmlFor="interests" className="text-foreground/80">
           Interests (comma-separated)
         </Label>
         <Input
@@ -125,12 +125,12 @@ export function ProfileSetupForm() {
           name="interests"
           value={formData.interests}
           onChange={handleChange}
-          className="bg-dark-300 border-dark-400 focus:border-teal-500"
+          className="bg-muted border-border focus:border-primary"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="bio" className="text-gray-200">
+        <Label htmlFor="bio" className="text-foreground/80">
           Bio
         </Label>
         <Textarea
@@ -138,7 +138,7 @@ export function ProfileSetupForm() {
           name="bio"
           value={formData.bio}
           onChange={handleChange}
-          className="bg-dark-300 border-dark-400 focus:border-teal-500"
+          className="bg-muted border-border focus:border-primary"
           rows={4}
           placeholder="Tell us about yourself..."
         />

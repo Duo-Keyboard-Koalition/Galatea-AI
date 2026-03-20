@@ -15,7 +15,6 @@ export function Sidebar({ className }: SidebarProps) {
   const [activeItem, setActiveItem] = useState("discover")
 
   useEffect(() => {
-    // Set active item based on current pathname
     if (pathname === "/") {
       setActiveItem("discover")
     } else if (pathname.startsWith("/profile")) {
@@ -51,14 +50,14 @@ export function Sidebar({ className }: SidebarProps) {
   ]
 
   return (
-    <div className={cn("flex flex-col h-full bg-galatea-dark border-r border-galatea-gray/30 w-64 py-6", className)}>
+    <div className={cn("flex flex-col h-full bg-card border-r border-border w-64 py-6", className)}>
       <div className="px-6 mb-8">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-galatea-cyan flex items-center justify-center">
-            <Heart className="w-4 h-4 text-galatea-darker" />
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <Heart className="w-4 h-4 text-primary-foreground" />
           </div>
-          <span className="text-xl font-bold text-white">
-            Galatea<span className="text-galatea-cyan">.AI</span>
+          <span className="text-xl font-bold text-foreground">
+            Galatea<span className="text-primary">.AI</span>
           </span>
         </Link>
       </div>
@@ -77,12 +76,12 @@ export function Sidebar({ className }: SidebarProps) {
               <item.icon
                 className={cn(
                   "w-5 h-5",
-                  activeItem === item.id ? "text-galatea-cyan" : "text-gray-400 group-hover:text-white",
+                  activeItem === item.id ? "text-primary" : "text-muted-foreground group-hover:text-foreground",
                 )}
               />
               <span>{item.label}</span>
               {item.badge && (
-                <div className="ml-auto bg-galatea-cyan text-galatea-darker text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <div className="ml-auto bg-primary text-primary-foreground text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {item.badge}
                 </div>
               )}
@@ -92,7 +91,7 @@ export function Sidebar({ className }: SidebarProps) {
       </div>
 
       <div className="mt-auto px-3">
-        <div className="pt-4 border-t border-galatea-gray/30">
+        <div className="pt-4 border-t border-border">
           <nav className="space-y-1">
             {bottomMenuItems.map((item) => (
               <Link
@@ -106,7 +105,7 @@ export function Sidebar({ className }: SidebarProps) {
                 <item.icon
                   className={cn(
                     "w-5 h-5",
-                    activeItem === item.id ? "text-galatea-cyan" : "text-gray-400 group-hover:text-white",
+                    activeItem === item.id ? "text-primary" : "text-muted-foreground group-hover:text-foreground",
                   )}
                 />
                 <span>{item.label}</span>

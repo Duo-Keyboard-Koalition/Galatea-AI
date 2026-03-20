@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card"
 export function LoaderExamples() {
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-white">Circle Loader Examples</h2>
+      <h2 className="text-2xl font-bold text-foreground">Circle Loader Examples</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Small loader in a card */}
@@ -29,13 +29,13 @@ export function LoaderExamples() {
       </div>
 
       {/* Content placeholder example */}
-      <div className="border border-gray-800 rounded-lg p-6">
+      <div className="border border-border rounded-lg p-6">
         <h3 className="text-xl font-medium mb-6">Content Placeholder Example</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-4">
-            <div className="h-8 bg-gray-800 rounded-md animate-pulse"></div>
-            <div className="h-32 bg-gray-800 rounded-md animate-pulse"></div>
-            <div className="h-8 bg-gray-800 rounded-md animate-pulse"></div>
+            <div className="h-8 bg-muted rounded-md animate-pulse"></div>
+            <div className="h-32 bg-muted rounded-md animate-pulse"></div>
+            <div className="h-8 bg-muted rounded-md animate-pulse"></div>
           </div>
           <div className="flex items-center justify-center">
             <CircleLoader message="Loading content..." />
@@ -45,9 +45,9 @@ export function LoaderExamples() {
 
       {/* Button to demonstrate fullPage loader */}
       <div className="mt-8">
-        <p className="text-gray-400 mb-2">Click the button below to see the full page loader:</p>
+        <p className="text-muted-foreground mb-2">Click the button below to see the full page loader:</p>
         <button
-          className="px-4 py-2 bg-teal-500 text-black rounded-md hover:bg-teal-400"
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
           onClick={() => {
             // This would typically be in a React component with state
             alert(

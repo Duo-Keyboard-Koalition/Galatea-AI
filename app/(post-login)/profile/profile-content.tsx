@@ -74,24 +74,26 @@ export function ProfileContent() {
     { id: "subscription", label: "Subscription" },
   ]
 
+  const inputClass = "w-full bg-muted border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+
   return (
     <div className="w-full p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-white">My Profile</h1>
+        <h1 className="text-3xl font-bold text-foreground">My Profile</h1>
         <div className="flex gap-3">
           {isEditing ? (
             <>
               <button
                 onClick={handleCancel}
-                className="flex items-center gap-2 px-4 py-2 bg-galatea-gray text-white rounded-lg hover:bg-galatea-gray-light transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-muted text-foreground rounded-lg hover:bg-muted/80 transition-colors"
               >
                 <X className="w-4 h-4" />
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="flex items-center gap-2 px-4 py-2 bg-galatea-cyan text-galatea-darker rounded-lg hover:bg-galatea-cyan-light transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
               >
                 <Save className="w-4 h-4" />
                 Save Changes
@@ -100,7 +102,7 @@ export function ProfileContent() {
           ) : (
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-galatea-cyan text-galatea-darker rounded-lg hover:bg-galatea-cyan-light transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
             >
               <Edit3 className="w-4 h-4" />
               Edit Profile
@@ -110,7 +112,7 @@ export function ProfileContent() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-galatea-gray mb-8">
+      <div className="flex border-b border-border mb-8">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -118,8 +120,8 @@ export function ProfileContent() {
             className={cn(
               "px-6 py-3 font-medium transition-colors",
               activeTab === tab.id
-                ? "text-galatea-cyan border-b-2 border-galatea-cyan"
-                : "text-gray-400 hover:text-white",
+                ? "text-primary border-b-2 border-primary"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {tab.label}
@@ -131,8 +133,8 @@ export function ProfileContent() {
       {activeTab === "profile" && (
         <div className="space-y-8">
           {/* Basic Info */}
-          <div className="bg-galatea-dark rounded-xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">Basic Information</h2>
+          <div className="bg-card rounded-xl p-6 border border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-6">Basic Information</h2>
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Profile Image */}
               <div className="flex flex-col items-center">
@@ -144,63 +146,65 @@ export function ProfileContent() {
                     </div>
                   )}
                 </div>
-                {isEditing && <button className="text-galatea-cyan hover:text-galatea-cyan-light">Change Photo</button>}
+                {isEditing && (
+                  <button className="text-primary hover:text-primary/80">Change Photo</button>
+                )}
               </div>
 
               {/* Basic Details */}
               <div className="flex-1 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">Name</label>
                     {isEditing ? (
                       <input
                         type="text"
                         value={editedProfile.name}
                         onChange={(e) => setEditedProfile({ ...editedProfile, name: e.target.value })}
-                        className="w-full bg-galatea-gray border border-galatea-gray-light rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-galatea-cyan"
+                        className={inputClass}
                       />
                     ) : (
-                      <p className="text-white text-lg">{profile.name}</p>
+                      <p className="text-foreground text-lg">{profile.name}</p>
                     )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Age</label>
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">Age</label>
                     {isEditing ? (
                       <input
                         type="number"
                         value={editedProfile.age}
                         onChange={(e) => setEditedProfile({ ...editedProfile, age: Number.parseInt(e.target.value) })}
-                        className="w-full bg-galatea-gray border border-galatea-gray-light rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-galatea-cyan"
+                        className={inputClass}
                       />
                     ) : (
-                      <p className="text-white text-lg">{profile.age}</p>
+                      <p className="text-foreground text-lg">{profile.age}</p>
                     )}
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">Location</label>
                   {isEditing ? (
                     <input
                       type="text"
                       value={editedProfile.location}
                       onChange={(e) => setEditedProfile({ ...editedProfile, location: e.target.value })}
-                      className="w-full bg-galatea-gray border border-galatea-gray-light rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-galatea-cyan"
+                      className={inputClass}
                     />
                   ) : (
-                    <p className="text-white text-lg">{profile.location}</p>
+                    <p className="text-foreground text-lg">{profile.location}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Bio</label>
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">Bio</label>
                   {isEditing ? (
                     <textarea
                       value={editedProfile.bio}
                       onChange={(e) => setEditedProfile({ ...editedProfile, bio: e.target.value })}
                       rows={4}
-                      className="w-full bg-galatea-gray border border-galatea-gray-light rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-galatea-cyan resize-none"
+                      className={inputClass + " resize-none"}
                     />
                   ) : (
-                    <p className="text-gray-300">{profile.bio}</p>
+                    <p className="text-foreground/70">{profile.bio}</p>
                   )}
                 </div>
               </div>
@@ -208,13 +212,13 @@ export function ProfileContent() {
           </div>
 
           {/* Interests */}
-          <div className="bg-galatea-dark rounded-xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">Interests</h2>
+          <div className="bg-card rounded-xl p-6 border border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-6">Interests</h2>
             <div className="flex flex-wrap gap-2">
               {(isEditing ? editedProfile.interests : profile.interests).map((interest, index) => (
                 <span
                   key={index}
-                  className="bg-galatea-cyan/20 text-galatea-cyan px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                  className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm flex items-center gap-2"
                 >
                   {interest}
                   {isEditing && (
@@ -230,7 +234,7 @@ export function ProfileContent() {
                     const interest = prompt("Add new interest:")
                     if (interest) addInterest(interest)
                   }}
-                  className="bg-galatea-gray text-gray-300 px-3 py-1 rounded-full text-sm flex items-center gap-2 hover:bg-galatea-gray-light"
+                  className="bg-muted text-muted-foreground px-3 py-1 rounded-full text-sm flex items-center gap-2 hover:bg-muted/80"
                 >
                   <Plus className="w-3 h-3" />
                   Add Interest
@@ -240,13 +244,13 @@ export function ProfileContent() {
           </div>
 
           {/* Personality Traits */}
-          <div className="bg-galatea-dark rounded-xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">Personality Traits</h2>
+          <div className="bg-card rounded-xl p-6 border border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-6">Personality Traits</h2>
             <div className="flex flex-wrap gap-2">
               {profile.personalityTraits.map((trait, index) => (
                 <span
                   key={index}
-                  className="bg-galatea-cyan/10 border border-galatea-cyan text-galatea-cyan px-3 py-1 rounded-full text-sm"
+                  className="bg-primary/10 border border-primary text-primary px-3 py-1 rounded-full text-sm"
                 >
                   {trait}
                 </span>
@@ -255,15 +259,15 @@ export function ProfileContent() {
           </div>
 
           {/* Additional Photos */}
-          <div className="bg-galatea-dark rounded-xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">Additional Photos</h2>
+          <div className="bg-card rounded-xl p-6 border border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-6">Additional Photos</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {profile.additionalImages.map((image, index) => (
                 <div key={index} className="relative aspect-square rounded-lg overflow-hidden card-glow">
                   <Image src={image || "/placeholder.svg"} alt={`Photo ${index + 1}`} fill className="object-cover" />
                   {isEditing && (
                     <div className="absolute top-2 right-2">
-                      <button className="bg-red-500 text-white p-1 rounded-full">
+                      <button className="bg-destructive text-destructive-foreground p-1 rounded-full">
                         <Trash2 className="w-3 h-3" />
                       </button>
                     </div>
@@ -271,8 +275,8 @@ export function ProfileContent() {
                 </div>
               ))}
               {isEditing && (
-                <div className="aspect-square border-2 border-dashed border-galatea-gray rounded-lg flex items-center justify-center">
-                  <button className="text-galatea-cyan">
+                <div className="aspect-square border-2 border-dashed border-border rounded-lg flex items-center justify-center">
+                  <button className="text-primary">
                     <Plus className="w-8 h-8" />
                   </button>
                 </div>
@@ -285,15 +289,15 @@ export function ProfileContent() {
       {/* Preferences Tab */}
       {activeTab === "preferences" && (
         <div className="space-y-8">
-          <div className="bg-galatea-dark rounded-xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">AI Companion Preferences</h2>
+          <div className="bg-card rounded-xl p-6 border border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-6">AI Companion Preferences</h2>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">What are you looking for?</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-3">What are you looking for?</label>
                 <div className="flex flex-wrap gap-2">
                   {profile.lookingFor.map((item, index) => (
-                    <span key={index} className="bg-galatea-cyan/20 text-galatea-cyan px-3 py-1 rounded-full text-sm">
+                    <span key={index} className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm">
                       {item}
                     </span>
                   ))}
@@ -301,23 +305,23 @@ export function ProfileContent() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">Preferred Age Range</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-3">Preferred Age Range</label>
                 <div className="flex items-center gap-4">
-                  <input type="range" min="18" max="50" value={profile.preferredAgeRange[0]} className="flex-1" />
-                  <span className="text-white">
+                  <input type="range" min="18" max="50" value={profile.preferredAgeRange[0]} className="flex-1 accent-primary" readOnly />
+                  <span className="text-foreground">
                     {profile.preferredAgeRange[0]} - {profile.preferredAgeRange[1]}
                   </span>
-                  <input type="range" min="18" max="50" value={profile.preferredAgeRange[1]} className="flex-1" />
+                  <input type="range" min="18" max="50" value={profile.preferredAgeRange[1]} className="flex-1 accent-primary" readOnly />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-3">Preferred Personalities</label>
+                <label className="block text-sm font-medium text-muted-foreground mb-3">Preferred Personalities</label>
                 <div className="flex flex-wrap gap-2">
                   {profile.preferredPersonalities.map((personality, index) => (
                     <span
                       key={index}
-                      className="bg-galatea-cyan/10 border border-galatea-cyan text-galatea-cyan px-3 py-1 rounded-full text-sm"
+                      className="bg-primary/10 border border-primary text-primary px-3 py-1 rounded-full text-sm"
                     >
                       {personality}
                     </span>
@@ -332,48 +336,48 @@ export function ProfileContent() {
       {/* Subscription Tab */}
       {activeTab === "subscription" && (
         <div className="space-y-8">
-          <div className="bg-galatea-dark rounded-xl p-6">
-            <h2 className="text-xl font-semibold text-white mb-6">Current Plan</h2>
-            <div className="flex items-center justify-between p-4 bg-galatea-gray rounded-lg">
+          <div className="bg-card rounded-xl p-6 border border-border">
+            <h2 className="text-xl font-semibold text-foreground mb-6">Current Plan</h2>
+            <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
               <div>
-                <h3 className="text-lg font-medium text-white">Free Plan</h3>
-                <p className="text-gray-400">5 matches per day, basic features</p>
+                <h3 className="text-lg font-medium text-foreground">Free Plan</h3>
+                <p className="text-muted-foreground">5 matches per day, basic features</p>
               </div>
-              <button className="bg-galatea-cyan text-galatea-darker px-4 py-2 rounded-lg font-medium hover:bg-galatea-cyan-light transition-colors">
+              <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors">
                 Upgrade
               </button>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-galatea-dark rounded-xl p-6 border border-galatea-cyan/30">
+            <div className="bg-card rounded-xl p-6 border border-primary/30">
               <div className="flex items-center gap-2 mb-4">
-                <Crown className="w-5 h-5 text-galatea-cyan" />
-                <h3 className="text-lg font-semibold text-white">Premium</h3>
+                <Crown className="w-5 h-5 text-primary" />
+                <h3 className="text-lg font-semibold text-foreground">Premium</h3>
               </div>
-              <p className="text-2xl font-bold text-white mb-2">
-                $9.99<span className="text-sm text-gray-400">/month</span>
+              <p className="text-2xl font-bold text-foreground mb-2">
+                $9.99<span className="text-sm text-muted-foreground">/month</span>
               </p>
-              <ul className="space-y-2 text-gray-300 mb-6">
+              <ul className="space-y-2 text-foreground/70 mb-6">
                 <li>• Unlimited matches</li>
                 <li>• Advanced AI personalities</li>
                 <li>• Priority matching</li>
                 <li>• Read receipts</li>
               </ul>
-              <button className="w-full bg-galatea-cyan text-galatea-darker py-2 rounded-lg font-medium hover:bg-galatea-cyan-light transition-colors">
+              <button className="w-full bg-primary text-primary-foreground py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors">
                 Choose Premium
               </button>
             </div>
 
-            <div className="bg-galatea-dark rounded-xl p-6 border border-yellow-500/30">
+            <div className="bg-card rounded-xl p-6 border border-yellow-500/30">
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="w-5 h-5 text-yellow-500" />
-                <h3 className="text-lg font-semibold text-white">Elite</h3>
+                <h3 className="text-lg font-semibold text-foreground">Elite</h3>
               </div>
-              <p className="text-2xl font-bold text-white mb-2">
-                $19.99<span className="text-sm text-gray-400">/month</span>
+              <p className="text-2xl font-bold text-foreground mb-2">
+                $19.99<span className="text-sm text-muted-foreground">/month</span>
               </p>
-              <ul className="space-y-2 text-gray-300 mb-6">
+              <ul className="space-y-2 text-foreground/70 mb-6">
                 <li>• Everything in Premium</li>
                 <li>• Custom AI personalities</li>
                 <li>• Voice conversations</li>

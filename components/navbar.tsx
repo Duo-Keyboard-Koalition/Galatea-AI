@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/logo"
 import { Menu, X } from "lucide-react"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -22,7 +23,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-black/60 backdrop-blur-md border-b border-teal-500/20" : "bg-transparent backdrop-blur-sm"
+        isScrolled ? "bg-background/60 backdrop-blur-md border-b border-primary/20" : "bg-transparent backdrop-blur-sm"
       }`}
     >
       <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -30,62 +31,67 @@ export function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-6">
-          <Link href="/about" className="text-gray-300 hover:text-teal-400 transition-colors">
+          <Link href="/about" className="text-foreground/70 hover:text-primary transition-colors">
             About
           </Link>
-          <Link href="/profile-setup" className="text-gray-300 hover:text-teal-400 transition-colors">
+          <Link href="/profile-setup" className="text-foreground/70 hover:text-primary transition-colors">
             Profile
           </Link>
-          <Link href="/companions" className="text-gray-300 hover:text-teal-400 transition-colors">
+          <Link href="/companions" className="text-foreground/70 hover:text-primary transition-colors">
             Companions
           </Link>
         </div>
 
-        <div className="hidden md:flex space-x-2">
-          <Button variant="ghost" className="text-gray-300 hover:text-teal-400 hover:bg-black/20" asChild>
+        <div className="hidden md:flex items-center space-x-2">
+          <ThemeSwitcher />
+          <Button variant="ghost" className="text-foreground/70 hover:text-primary" asChild>
             <Link href="/signin">Log In</Link>
           </Button>
-          <Button className="bg-teal-500 text-black hover:bg-teal-400" asChild>
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
             <Link href="/signup">Sign Up</Link>
           </Button>
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="md:hidden text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button className="md:hidden text-foreground" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </nav>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-black/90 backdrop-blur-md">
+        <div className="md:hidden bg-background/90 backdrop-blur-md border-b border-border">
           <div className="container mx-auto px-6 py-4 flex flex-col space-y-4">
             <Link
               href="/about"
-              className="text-gray-300 hover:text-teal-400 transition-colors py-2"
+              className="text-foreground/70 hover:text-primary transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               About
             </Link>
             <Link
               href="/profile-setup"
-              className="text-gray-300 hover:text-teal-400 transition-colors py-2"
+              className="text-foreground/70 hover:text-primary transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Profile
             </Link>
             <Link
               href="/companions"
-              className="text-gray-300 hover:text-teal-400 transition-colors py-2"
+              className="text-foreground/70 hover:text-primary transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Companions
             </Link>
             <div className="flex flex-col space-y-2 pt-2">
-              <Button variant="ghost" className="text-gray-300 hover:text-teal-400 justify-start" asChild>
+              <div className="flex items-center justify-between py-1">
+                <span className="text-foreground/70 text-sm">Toggle theme</span>
+                <ThemeSwitcher />
+              </div>
+              <Button variant="ghost" className="text-foreground/70 hover:text-primary justify-start" asChild>
                 <Link href="/signin">Log In</Link>
               </Button>
-              <Button className="bg-teal-500 text-black hover:bg-teal-400" asChild>
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
                 <Link href="/signup">Sign Up</Link>
               </Button>
             </div>

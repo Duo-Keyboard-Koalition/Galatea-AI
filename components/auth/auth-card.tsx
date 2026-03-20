@@ -37,7 +37,6 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate API call
     setTimeout(() => {
       setIsLoading(false)
       setResetEmailSent(true)
@@ -45,38 +44,33 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
   }
 
   return (
-    <div className="auth-card rounded-xl w-full max-w-4xl mx-4 z-10 overflow-hidden">
+    <div className="bg-card border border-border rounded-xl w-full max-w-4xl mx-4 z-10 overflow-hidden shadow-lg">
       <div className="flex flex-col md:flex-row">
         {/* Left Side - Email Sign In */}
         <div className="w-full md:w-1/2 p-8">
           {!showForgotPassword ? (
             <>
-              <h2 className="text-2xl font-bold mb-6 text-galatea-light">Sign In</h2>
+              <h2 className="text-2xl font-bold mb-6 text-foreground">Sign In</h2>
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-galatea-light/90">
-                    Email
-                  </Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="cyber-input"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password" className="text-galatea-light/90">
-                      Password
-                    </Label>
+                    <Label htmlFor="password">Password</Label>
                     <button
                       type="button"
                       onClick={() => setShowForgotPassword(true)}
-                      className="text-sm text-galatea-teal hover:underline"
+                      className="text-sm text-primary hover:underline"
                     >
                       Forgot password?
                     </button>
@@ -87,23 +81,22 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="cyber-input"
                     required
                   />
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full cyber-button bg-galatea-teal text-galatea-black hover:bg-galatea-teal/90"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                   disabled={isLoading}
                 >
                   {isLoading ? "Signing in..." : "Sign In"}
                 </Button>
 
                 <div className="text-center mt-6">
-                  <p className="text-galatea-light/70">
+                  <p className="text-muted-foreground">
                     Don&apos;t have an account?{" "}
-                    <Link href="/signup" className="text-galatea-teal hover:underline">
+                    <Link href="/signup" className="text-primary hover:underline">
                       Sign up
                     </Link>
                   </p>
@@ -112,38 +105,35 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
             </>
           ) : (
             <>
-              <h2 className="text-2xl font-bold mb-2 text-galatea-light">Reset Password</h2>
-              <p className="text-galatea-light/70 mb-6">
+              <h2 className="text-2xl font-bold mb-2 text-foreground">Reset Password</h2>
+              <p className="text-muted-foreground mb-6">
                 Enter your email address and we&apos;ll send you a link to reset your password.
               </p>
 
               {resetEmailSent ? (
-                <div className="bg-galatea-teal/10 border border-galatea-teal/30 rounded-md p-4 mb-6">
-                  <p className="text-galatea-light">
-                    If an account exists with the email <span className="text-galatea-teal">{forgotPasswordEmail}</span>
+                <div className="bg-primary/10 border border-primary/30 rounded-md p-4 mb-6">
+                  <p className="text-foreground">
+                    If an account exists with the email <span className="text-primary">{forgotPasswordEmail}</span>
                     , you will receive a password reset link shortly.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleForgotPassword} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="reset-email" className="text-galatea-light/90">
-                      Email
-                    </Label>
+                    <Label htmlFor="reset-email">Email</Label>
                     <Input
                       id="reset-email"
                       type="email"
                       value={forgotPasswordEmail}
                       onChange={(e) => setForgotPasswordEmail(e.target.value)}
                       placeholder="Enter your email"
-                      className="cyber-input"
                       required
                     />
                   </div>
 
                   <Button
                     type="submit"
-                    className="w-full cyber-button bg-galatea-teal text-galatea-black hover:bg-galatea-teal/90"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                     disabled={isLoading}
                   >
                     {isLoading ? "Sending..." : "Send Reset Link"}
@@ -157,7 +147,7 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
                   setShowForgotPassword(false)
                   setResetEmailSent(false)
                 }}
-                className="mt-4 text-galatea-teal hover:underline inline-flex items-center"
+                className="mt-4 text-primary hover:underline inline-flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -180,13 +170,13 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
         </div>
 
         {/* Divider for desktop */}
-        <div className="hidden md:block auth-divider"></div>
+        <div className="hidden md:block w-px bg-border"></div>
 
         {/* Right Side - Social Sign In */}
-        <div className="w-full md:w-1/2 p-8 border-t border-galatea-teal/20 md:border-t-0">
-          <h2 className="text-2xl font-bold mb-6 text-galatea-light">Continue with</h2>
+        <div className="w-full md:w-1/2 p-8 border-t border-border md:border-t-0">
+          <h2 className="text-2xl font-bold mb-6 text-foreground">Continue with</h2>
           <div className="space-y-4">
-            <button className="social-button w-full flex items-center justify-center space-x-3 py-3 px-4 rounded-md bg-white/5 border border-galatea-teal/20 hover:border-galatea-teal/40 text-galatea-light">
+            <button className="social-button w-full flex items-center justify-center space-x-3 py-3 px-4 rounded-md bg-secondary border border-border hover:border-primary/40 text-foreground transition-colors">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
@@ -196,14 +186,14 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
               <span>Sign in with Google</span>
             </button>
 
-            <button className="social-button w-full flex items-center justify-center space-x-3 py-3 px-4 rounded-md bg-white/5 border border-galatea-teal/20 hover:border-galatea-teal/40 text-galatea-light">
+            <button className="social-button w-full flex items-center justify-center space-x-3 py-3 px-4 rounded-md bg-secondary border border-border hover:border-primary/40 text-foreground transition-colors">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z" />
               </svg>
               <span>Sign in with Facebook</span>
             </button>
 
-            <button className="social-button w-full flex items-center justify-center space-x-3 py-3 px-4 rounded-md bg-white/5 border border-galatea-teal/20 hover:border-galatea-teal/40 text-galatea-light">
+            <button className="social-button w-full flex items-center justify-center space-x-3 py-3 px-4 rounded-md bg-secondary border border-border hover:border-primary/40 text-foreground transition-colors">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19.54 0c1.356 0 2.46 1.104 2.46 2.472v19.056c0 1.368-1.104 2.472-2.46 2.472H4.46C3.104 24 2 22.896 2 21.528V2.472C2 1.104 3.104 0 4.46 0h15.08zm-4.63 15.5a.8.8 0 0 0-.798.8v2.399a.8.8 0 0 0 .798.801h2.4a.8.8 0 0 0 .8-.801V16.3a.8.8 0 0 0-.8-.8h-2.4zm-7.6 0a.8.8 0 0 0-.799.8v2.399a.8.8 0 0 0 .799.801h2.4a.8.8 0 0 0 .8-.801V16.3a.8.8 0 0 0-.8-.8h-2.4zm7.6-8a.8.8 0 0 0-.798.8v2.399a.8.8 0 0 0 .798.8h2.4a.8.8 0 0 0 .8-.8V8.3a.8.8 0 0 0-.8-.8h-2.4zm-7.6 0a.8.8 0 0 0-.799.8v2.399a.8.8 0 0 0 .799.8h2.4a.8.8 0 0 0 .8-.8V8.3a.8.8 0 0 0-.8-.8h-2.4z" />
               </svg>
@@ -212,13 +202,13 @@ export function AuthCard({ onSignIn }: AuthCardProps) {
           </div>
 
           <div className="mt-8 text-center">
-            <p className="text-galatea-light/50 text-sm">
+            <p className="text-muted-foreground text-sm">
               By signing in, you agree to our{" "}
-              <Link href="/terms" className="text-galatea-teal/70 hover:text-galatea-teal">
+              <Link href="/terms" className="text-primary/70 hover:text-primary">
                 Terms of Service
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-galatea-teal/70 hover:text-galatea-teal">
+              <Link href="/privacy" className="text-primary/70 hover:text-primary">
                 Privacy Policy
               </Link>
             </p>

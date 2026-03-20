@@ -73,7 +73,7 @@ export default function SignInPage() {
       {/* Auth Card */}
       <div className="relative z-10 w-full max-w-4xl">
         {error && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-4 rounded-lg mb-4 max-w-4xl mx-auto">
+          <div className="bg-destructive/10 border border-destructive/30 text-destructive p-4 rounded-lg mb-4 max-w-4xl mx-auto">
             {error}
           </div>
         )}

@@ -121,12 +121,16 @@ export function SwipeInterface() {
       {/* Swipe buttons */}
       <div className="p-6">
         <div className="swipe-buttons flex justify-center gap-6">
-          <button onClick={() => handleSwipe("left")} className="w-14 h-14 bg-white text-red-500" aria-label="Dislike">
+          <button
+            onClick={() => handleSwipe("left")}
+            className="w-14 h-14 bg-background border border-border text-destructive"
+            aria-label="Dislike"
+          >
             <X className="w-6 h-6" />
           </button>
           <button
             onClick={() => handleSwipe("up")}
-            className="w-12 h-12 bg-galatea-cyan text-galatea-darker"
+            className="w-12 h-12 bg-primary text-primary-foreground"
             aria-label="Super Like"
           >
             <Star className="w-5 h-5" />
@@ -138,7 +142,11 @@ export function SwipeInterface() {
           >
             <Heart className="w-6 h-6" />
           </button>
-          <button onClick={() => {}} className="w-12 h-12 bg-galatea-gray text-white" aria-label="Message">
+          <button
+            onClick={() => {}}
+            className="w-12 h-12 bg-muted text-foreground"
+            aria-label="Message"
+          >
             <MessageCircle className="w-5 h-5" />
           </button>
         </div>
